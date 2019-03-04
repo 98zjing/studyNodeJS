@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<input type="file" multiple id="imgLocal" accept="image/*" />
+	<img src="" id="img">
+<script type="text/javascript">
+	let inp = document.querySelector('#imgLocal')
+	inp.onchange = function(e) {
+	  let fileList = this.files
+	  console.log(fileList[0]) //files
+	  seeImg(fileList[0]);
+	}
+
+	//图片预览
+	function  seeImg(img){
+		let file = img
+		const fileReader = new FileReader()
+		fileReader.readAsDataURL(file) //读取图片
+		fileReader.addEventListener('load', function() {
+		  // 读取完成
+		  let res = fileReader.result
+		  let img  = document.querySelector('#img');
+		  img.src = res;
+		  img.onload  = function(){
+			  console.log(`widht:${this.width},height:${this.height}`);
+		  }
+		})
+	}
+
+
+</script>
+</body>
+</html>

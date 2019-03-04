@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	//函数 类上 直接处理
+	Function.prototype.before = function( beforefn ){
+	    var __self = this; // 保存原函数的引用
+	    return function(){ // 返回包含了原函数和新函数的"代理"函数
+	        beforefn.apply( this, arguments ); // 执行新函数，且保证 this 不被劫持，新函数接受的参数 // 也会被原封不动地传入原函数，新函数在原函数之前执行
+	        return __self.apply( this, arguments ); // 执行原函数并返回原函数的执行结果，  // 并且保证 this 不被劫持
+	} }
+	Function.prototype.after = function( afterfn ){ 
+	    var __self = this;
+	    return function(){
+	        var ret = __self.apply( this, arguments ); 
+	        afterfn.apply( this, arguments );
+	        return ret;
+	    } 
+	};
+
+	//自定义装饰类
+	const APC  = (function(){
+		let __apc = function(fn){
+				this.execute = fn;
+		}
+		__apc.prototype.before = function(callback){
+			var __fn = this.execute;
+			this.execute = function(){
+				callback.apply(this,arguments)
+				__fn.apply(this,arguments)
+			}
+	    	return this;
+		}
+		__apc.prototype.after = function(callback){
+			var __fn = this.execute;
+			this.execute = function(){
+				__fn.apply(this,arguments)
+				callback.apply(this,arguments)
+			}
+	    	return this;
+		}
+		return  __apc;
+	})();
+
+	function test(param){
+		console.log(param);
+	};
+
+	var t  = (new APC(test)).before(function(param){
+		console.log(param+1+'-1');
+	}).before(function(param){
+		console.log(param+2+'-2');
+	}).execute(1);
+
+	var t2  = (new APC(test)).after(function(param){
+		console.log(param+1+'-1');
+	}).after(function(param){
+		console.log(param+2+'-2');
+	}).execute(1);
+
+	test(4)
+</script>
+</html>

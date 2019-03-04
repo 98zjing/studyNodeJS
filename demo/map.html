@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.12&key=8672d7dc8d02f5be67a72756a0b41a83"></script>
+</head>
+<style type="text/css">
+		 #map-container {
+	 	position: relative;
+	 	top: 200px;
+        width:900px;
+        height: 520px;
+        margin: 0 auto;
+    }
+      .amap-icon img {
+            width: 25px;
+            height: 34px;
+        }
+<body>
+	
+	</style>            <div id="map-container"></div>
+	<script type="text/javascript">
+		var pos  = [114.410753,30.476638];
+		 var map = new AMap.Map('map-container',{
+                zoom:13,
+                center:pos,
+                viewMode:'3D'
+            });
+
+	 
+
+		var create = function(position,map){
+			// 创建 AMap.Icon 实例：
+			 var marker = new AMap.Marker({
+		        position: position,
+		        icon: 'http://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+		    });
+
+			 map.add(marker);
+			 return marker;
+		}
+
+
+		var  marker= create(pos,map);
+
+		 map.on('click',function(res){
+		 	console.log(res);
+		 	map.remove(marker);
+		 	marker= create([res.lnglat.R,res.lnglat.Q],map)
+		 });
+	</script>
+
+</body>
+</html>

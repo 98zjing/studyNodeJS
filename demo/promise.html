@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+
+	var myPromise = function(fnc){
+		var __PRO__  = {
+			status:'pending',
+			value:null
+		};
+		if(!(this instanceof myPromise)){
+			return new myPromise(fnc);
+		}
+
+		this.__set = function(key,val){
+			if(key in __PRO__){
+				if(key === 'status'){
+					if( __PRO__.status != 'pending')return;
+					__PRO__[key] =  val;
+				}else{
+					__PRO__[key] =  val;
+				}
+			}
+		}
+
+		this.__get  = function(key){
+			if(key in __PRO__){
+				return __PRO__[key]
+			}
+		}
+
+		fnc(this.resolve.bind(this),this.reject.bind(this));
+	}
+
+	myPromise.prototype = {
+		resolve:function(value){
+			console.log(this.__set('value',value));
+			if(this.__get('status') === 'pending'){
+				this.__set('status','fullfiled');
+				this.__set('value',value);
+			}
+		},
+		reject:function(value){
+			console.log(this.__set('value',value));
+			if(this.__get('status') === 'pending'){
+				this.__set('status','reject');
+				this.__set('value',value);
+			}
+		},
+		then:function(resolvefnc,rejectfnc){
+			var value = this.__get('value');
+			var status = this.__get('status');
+			if(value === 'fullfiled'){
+				var res =   resolvefnc(value);	
+				if(res instanceof myPromise){
+					return res;
+				}
+				if(typeof res != 'undefined'){
+					this.__set('value',res)
+				}
+				return this;
+			}else{
+				var res =   resolvefnc(value);	
+				if(res instanceof myPromise){
+					return res;
+				}
+				if(typeof res != 'undefined'){
+					this.__set('value',res)
+				}
+				return this;
+			}
+		},
+		catch:function(rejectfnc){
+			var value = this.__get('value');
+			var status = this.__get('status');
+			if(status === 'pending'){
+				var res =   rejectfnc(value);	
+				if(res instanceof myPromise){
+					return res;
+				}
+				if(typeof res != 'undefined'){
+					this.__set('value',res)
+				}
+				return this;
+			}
+		}
+	}
+
+</script>
+</body>
+</html>
