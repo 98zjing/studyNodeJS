@@ -8,6 +8,11 @@ const router  =  require('./app/router.js');
 
 
 const BAS_PATH = './public/';
+const VIEW_CONF = {
+	path:'./public/views/',
+	head:'head.html',
+	foot:'foot.html'
+};
 
 http.createServer((request,response)=>{
 	let pathName = url.parse(request.url).pathname;
@@ -45,38 +50,67 @@ http.createServer((request,response)=>{
 			});
 			return;
 		}
-		
-		fs.readFile( BAS_PATH + pathName,(error,data)=>{
-			if(error){
-				console.log('404  Not Found!');
-				fs.readFile(BAS_PATH + '404.html',(_error,_data)=>{
-					if(_error){
-						console.log(_error);
-					}else{
-						response.writeHead(200,{
-							"Content-Type":'text/html;chearset-UTF-8'
-						});
-						response.write(_data);
-						response.end();	
-					}						
-				});
-			}else{
-				/*fs.stat( BAS_PATH + pathName,(err,stat)=>{
-					if(err){
-						console.error(err);
-					}else{
-						console.log(stat)
-					}
-				});*/
-				let ext = getExt(extName);
-
-				response.writeHead(200,{
-					"Content-Type":`${ext};chearset-UTF-8`
-				});
-				response.write(data);
-				response.end();
-			}
-		});
+		if(extName  == '.html'){
+			let testData = '';
+			response.writeHead(200,{
+				"Content-Type":`text/html;chearset-UTF-8`
+			});
+			fs.readFile(`${VIEW_CONF.path}lay/${VIEW_CONF.head}`,(_error,_data)=>{
+				if(_error){
+					console.log(_error);
+				}else{
+					testData +=  _data;	
+					fs.readFile(`${VIEW_CONF.path}${pathName}`,(_error,_data)=>{
+						if(_error){
+							console.log(_error);
+						}else{
+							testData +=  _data;	
+							fs.readFile(`${VIEW_CONF.path}lay/${VIEW_CONF.foot}`,(_error,_data)=>{
+								if(_error){
+									console.log(_error);
+								}else{
+									testData +=  _data;	
+									response.write(testData);
+									response.end();	
+								}						
+							});
+						}						
+					});
+				}						
+			});
+		}else{
+			fs.readFile( BAS_PATH + pathName,(error,data)=>{
+				if(error){
+					console.log('404  Not Found!');
+					fs.readFile(BAS_PATH + '404.html',(_error,_data)=>{
+						if(_error){
+							console.log(_error);
+						}else{
+							response.writeHead(200,{
+								"Content-Type":'text/html;chearset-UTF-8'
+							});
+							response.write(_data);
+							response.end();	
+						}						
+					});
+				}else{
+					/*fs.stat( BAS_PATH + pathName,(err,stat)=>{
+						if(err){
+							console.error(err);
+						}else{
+							console.log(stat)
+						}
+					});*/
+					let ext = getExt(extName);
+	
+					response.writeHead(200,{
+						"Content-Type":`${ext};chearset-UTF-8`
+					});
+					response.write(data);
+					response.end();
+				}
+			});
+		}
 	}
 	
 }).listen(8888);
