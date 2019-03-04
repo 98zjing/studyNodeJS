@@ -174,7 +174,7 @@
                 sessionStorage.setItem("userName", res.data.userName);
                 alert("登录成功！");
                 window.location.href = "./messageBoard.html";
-              } else if (res.code == "1") {
+              } else {
                 alert("登录失败，密码错误！");
               }
             },

@@ -61,6 +61,13 @@ http.createServer((request,response)=>{
 					}						
 				});
 			}else{
+				/*fs.stat( BAS_PATH + pathName,(err,stat)=>{
+					if(err){
+						console.error(err);
+					}else{
+						console.log(stat)
+					}
+				});*/
 				let ext = getExt(extName);
 
 				response.writeHead(200,{
@@ -73,7 +80,7 @@ http.createServer((request,response)=>{
 	}
 	
 }).listen(8888);
-
+console.log('http://localhost:8888/')
 
 
 // 获取后缀名

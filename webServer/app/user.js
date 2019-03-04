@@ -1,5 +1,6 @@
 // 连接 MySQL：先安装 npm i mysql -D
 var mysql = require('mysql');
+var crypto   = require('crypto');
 // MySQL 的连接信息
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -28,7 +29,7 @@ User.prototype =  {
     //获取留言
     getMessage:function(data){
       console.log("\n【API - 获取留言信息】");
-      return new Promise(function(resolve,reject){
+      return new Promise((resolve,reject)=>{
         let sql = 'SELECT * FROM `message`';
         connection.query(sql,(error,res)=>{
           if(error){
@@ -44,16 +45,14 @@ User.prototype =  {
     //登录
     postLogin:function(date){
       console.log("\n【API - 登录 信息】");
-      return new Promise(function(resolve,reject){
+      return new Promise((resolve,reject)=>{
           let sql  =  'SELECT * FROM `user` where user_name=? and user_password=?';
-          let valus = [date.username,date.password];
-
+          let valus = [date.username,this.md5(date.password)];
           connection.query(sql,valus,(error,res)=>{
           if(error){
             console.log(error);
             reject(error);
           }else{
-            
             resolve(res);
           }
         });
@@ -62,9 +61,10 @@ User.prototype =  {
     //注册
     postRegister:function(date){
       console.log("\n【API - 提交注册 信息】");
-      return new Promise(function(resolve,reject){
+      return new Promise((resolve,reject)=>{
         let sql  =  'INSERT  INTO  `user`(`user_name`,`user_password`, `time`) VALUES(?,?,?)';
-        let valus = [date.username,date.password,getNowFormatDate()];
+        let valus = [date.username,this.md5(date.password),getNowFormatDate()];
+        console.log(valus);
         connection.query(sql,valus,(error,res)=>{
           if(error){
             console.log(error);
@@ -78,7 +78,7 @@ User.prototype =  {
     },
     //留言
     postSendMessage:function(data){
-        return new Promise(function(resolve,reject){
+        return new Promise((resolve,reject)=>{
           let sql = 'INSERT INTO  `message`(`user_message`,`user_id`,`user_name`,`time`) VALUES(?,?,?,?)';
           let values = [data.message,data.userid,data.username,getNowFormatDate()];
           connection.query(sql,values,(error,res)=>{
@@ -92,6 +92,11 @@ User.prototype =  {
           })
         })
     },
+    md5:function(data){
+      const hash = crypto.createHash('md5');
+      console.log(data);
+      return  hash.update(data.toString()).digest('hex');
+    }
 }
 
 

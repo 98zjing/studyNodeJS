@@ -46,8 +46,10 @@ router.add('post','login',(request,response)=>{
 			}),'utf-8');
 		}else{
 			response.write(suress({
+				code:400,
 				data:{},
-				msg:'用户名或密码错误'
+				msg:'用户名或密码错误',
+				status:0
 			}),'utf-8');
 		}
 		
