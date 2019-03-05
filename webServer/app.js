@@ -36,6 +36,9 @@ http.createServer((request,response)=>{
 					parames:qs.parse(reqData)
 				},request),response);
 			});
+			request.on('error',(error)=>{
+				console.log(error);
+			})
 			return;
 		}
 
@@ -52,8 +55,6 @@ http.createServer((request,response)=>{
 			return;
 		}
 		if(extName  == '.html'){
-			console.log(extName);
-			console.log(pathName);
 			let testData = '';
 			response.writeHead(200,{
 				"Content-Type":`text/html;chearset-UTF-8`

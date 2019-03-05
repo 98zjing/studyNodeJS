@@ -1,4 +1,6 @@
 const User =  require('./User.js');
+const buffer = require('buffer');
+const Upload  = require('./Upload.js');
 
 const router = {
 	get : {},
@@ -12,6 +14,13 @@ const router = {
 		}
 	}
 };
+
+router.add('post','load',(request,response)=>{
+	console.log(request.parames)
+	Upload().load(request).then((res)=>{
+		response.end();
+	})
+});
 
 router.add('get','getMessage',(request,response)=>{
 	User().getMessage(request.parames).then((data)=>{
