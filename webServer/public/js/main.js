@@ -1,10 +1,20 @@
 $(function () {
+    const actives = {
+      'index':true,
+      'consultingBusiness':true,
+      'valueAddedService':true,
+      'trainingBusiness':true,
+      'mobileApplications':true,
+      'messageBoard':true
+    }
+    let actName =  location.pathname.replace(/\//,'').replace(/.html/,'');
+    console.log(actName)
+    $('#'+actName).addClass('active');
   //登录
   (function($){
     $("#login-submit").click(function () {
       let userName = $("#userName").val(); // 用户名
       let userPassword = $("#userPassword").val(); // 密码
-
       if (!userName) {
         alert("请输入用户名");
         $("#userName").focus();
@@ -61,6 +71,7 @@ $(function () {
 
   //留言板
   (function($){
+    if(location.pathname != '/messageBoard.html')return false;
     let userName = sessionStorage.getItem("userName");
     let userId = sessionStorage.getItem("id");
     // 查询留言板

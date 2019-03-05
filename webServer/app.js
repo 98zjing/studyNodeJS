@@ -6,7 +6,6 @@ const path = require('path');
 const qs = require("querystring");
 const router  =  require('./app/router.js');
 
-
 const BAS_PATH = './public/';
 const VIEW_CONF = {
 	path:'./public/views/',
@@ -16,12 +15,14 @@ const VIEW_CONF = {
 
 http.createServer((request,response)=>{
 	let pathName = url.parse(request.url).pathname;
-	// 获取文件的后缀名
-	let extName =  path.extname(pathName);
+	
 
 	if(pathName ==  '/'){
 		pathName  = 'index.html';
 	} 
+	// 获取文件的后缀名
+	let extName =  path.extname(pathName);
+
 	// 过滤 /favicon.ico 的请求
 	if(pathName != '/favicon.ico'){
 		let api = pathName.replace(/\//,'');
@@ -51,6 +52,8 @@ http.createServer((request,response)=>{
 			return;
 		}
 		if(extName  == '.html'){
+			console.log(extName);
+			console.log(pathName);
 			let testData = '';
 			response.writeHead(200,{
 				"Content-Type":`text/html;chearset-UTF-8`
@@ -82,7 +85,7 @@ http.createServer((request,response)=>{
 			fs.readFile( BAS_PATH + pathName,(error,data)=>{
 				if(error){
 					console.log('404  Not Found!');
-					fs.readFile(BAS_PATH + '404.html',(_error,_data)=>{
+					fs.readFile(VIEW_CONF.path + '404.html',(_error,_data)=>{
 						if(_error){
 							console.log(_error);
 						}else{
