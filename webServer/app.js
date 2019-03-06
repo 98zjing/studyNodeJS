@@ -6,7 +6,7 @@ const path = require('path');
 const qs = require("querystring");
 const router  =  require('./app/router.js');
 
-const BAS_PATH = './public/';
+const BAS_PATH = './public/assets';
 const VIEW_CONF = {
 	path:'./public/views/',
 	head:'head.html',
@@ -18,7 +18,7 @@ http.createServer((request,response)=>{
 	
 
 	if(pathName ==  '/'){
-		pathName  = 'index.html';
+		pathName  = 'load.html';
 	} 
 	// 获取文件的后缀名
 	let extName =  path.extname(pathName);
@@ -26,6 +26,10 @@ http.createServer((request,response)=>{
 	// 过滤 /favicon.ico 的请求
 	if(pathName != '/favicon.ico'){
 		let api = pathName.replace(/\//,'');
+		if(api == 'upload'){
+			router.post.upload(request,response);
+			return;
+		}
 		if(api in router.post){//POST接口
 			var reqData = '';
 			request.on('data',(chunk)=>{

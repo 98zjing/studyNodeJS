@@ -15,9 +15,10 @@ const router = {
 	}
 };
 
-router.add('post','load',(request,response)=>{
-	console.log(request.parames)
+router.add('post','upload',(request,response)=>{
 	Upload().load(request).then((res)=>{
+		response.end();
+	}).catch(()=>{
 		response.end();
 	})
 });

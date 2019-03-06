@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "mysql": "^2.16.0"
+  },
+  "dependencies": {
+    "formidable": "^1.2.1"
   }
 }

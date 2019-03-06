@@ -6,37 +6,40 @@ function  Upload(){
 		return new Upload();
 	}
 	this.newFileName = '';
-	this.fileName = '';
 	this.form = null;
-	this.dir = 'upload/';
+	this.dir = './public/upload/';
 }
 Upload.prototype =  {
 	isFormData:function(req){
 		let type = req.headers['content-type'] || [];
-		console.log(type);
 		return type.includes('multipart/form-data');
 	},
 	load:function(req){
 		return new Promise((res,rej)=>{
-			/*if(!this.isFormData(req)){
-				console.log(2222);
-				return  false;
-			}*/
 			this.form = new formidable.IncomingForm();
-			this.form.keepExtensions  = true;
+			// this.form.encoding = 'utf-8';
 			this.form.uploadDir  =  this.dir;
-			console.log(this.form);
-			this.form.on('file',(name,file)=>{
-				console.log('file')
-				this.newFileName = this.newName();
-				fs.renameSync(file.path,this.dir,this.newFileName);
+
+			this.form.parse(req,(err,fields,files)=>{
+      			if(err) throw err;
 			});
 
-			this.form.on('field',(field,value)=>{
-				console.log('field')
-				console.log(field);
-				console.log(value)
+			this.form.on('progress', function(bytesReceived, bytesExpected) {
+
 			});
+			
+			this.form.on('field',(field,value)=>{
+
+			});
+
+			/*this.form.on('file',(name,file)=>{
+				this.newFileName = this.newName(file);
+				fs.renameSync(file.path,this.dir + this.newFileName);
+			});*/
+
+			this.form.on('error',(error)=>{
+				rej(error);
+			})	
 
 			this.form.on('end',()=>{
 				res({
@@ -44,23 +47,17 @@ Upload.prototype =  {
 					newFileName:this.newFileName,
 					form:this.form
 				})
-				console.log('上传成功')
 			});
-
-			this.form.on('error',(error)=>{
-				console.log('error');
-				rej(error);
-			})	
 		});
 	},
-	newName:function(){
-		let types =  this.form.name.split('.');
-		let extName = types[types.length = 1];
-		let  name = (new Date()).getTime();
-		for(var i = 0;i<10;i++){
-			name += Math.random().toString().split('.')[1];
+	newName:function(file){
+		let types =  file.name.toString().split('.');
+		let extName = types[types.length - 1];
+		let  newName = (new Date()).getTime();
+		for(var i = 0;i<2;i++){
+			newName += Math.random().toString().split('.')[1];
 		}
-		return name+extName;
+		return newName + '.' + extName;
 	}
 };
 module.exports = Upload;
