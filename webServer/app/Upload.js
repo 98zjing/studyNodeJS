@@ -32,10 +32,10 @@ Upload.prototype =  {
 
 			});
 
-			/*this.form.on('file',(name,file)=>{
+			this.form.on('file',(name,file)=>{
 				this.newFileName = this.newName(file);
 				fs.renameSync(file.path,this.dir + this.newFileName);
-			});*/
+			});
 
 			this.form.on('error',(error)=>{
 				rej(error);

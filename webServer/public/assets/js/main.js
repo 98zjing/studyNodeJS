@@ -8,8 +8,29 @@ $(function () {
       'messageBoard':true
     }
     let actName =  location.pathname.replace(/\//,'').replace(/.html/,'');
-    console.log(actName)
     $('#'+actName).addClass('active');
+
+  //获取文件
+  (function($){
+    if(location.pathname != '/load.html')return false;
+    $.ajax({
+      url:'http://localhost:8888/getfile',
+      type:'get',
+      dataType:'json',
+      success:function(data){
+        let html = '';
+        for(var f of data.data.list){
+          html += `<a href=/down?filename=${f} style='margin-right:20px;'>点击下载${f}</a>`;
+        }
+        console.log(html);
+        $('#downfile').html(html);
+      },
+      error:function(err){
+        console.log(err);
+      }
+    });
+  })($);    
+
   //登录
   (function($){
     $("#login-submit").click(function () {

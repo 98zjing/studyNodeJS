@@ -15,8 +15,6 @@ connection.connect();
 // 引入 url 模块：url 是对用户提交的路径进行解析
 const url = require("url");
 
-
-
 function  User(){
   if(this instanceof User){
     return this;

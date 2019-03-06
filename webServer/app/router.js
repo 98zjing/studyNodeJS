@@ -1,7 +1,11 @@
-const User =  require('./User.js');
 const buffer = require('buffer');
+const fs =  require('fs');
+
+const User =  require('./User.js');
 const Upload  = require('./Upload.js');
 const Email  = require('./Email.js');
+const FileDown =  require('./FileDown.js');
+
 
 const router = {
 	get : {},
@@ -20,7 +24,7 @@ router.add('post','email',(request,response)=>{
 	console.log(request.parames)
 	let data = {...request.parames};
 	if(!data.from || !data.to ||  !data.subject || !data.html){
-		response(suress({
+		response(success({
 			msg:'请填写完整',
 			status:0
 		}));
@@ -28,7 +32,7 @@ router.add('post','email',(request,response)=>{
 	}
 	Email().setMsg(data).send()
 	.then((res)=>{
-		response.write(suress({
+		response.write(success({
 			msg:'邮箱已发送'
 		}));
 		response.end();
@@ -43,12 +47,40 @@ router.add('post','upload',(request,response)=>{
 	})
 });
 
+router.add('get','down',(request,response)=>{
+	let arr = request.parames.filename.split('.');
+	let extName =  arr[arr.length -1];
+	FileDown(request.parames.filename).down()
+	.then((data)=>{
+		response.writeHead(200,{
+			// 'Content-Type':`${getExt(extName)};chearset-UTF-8`,
+			'Content-Type': 'application/octet-stream', //告诉浏览器这是一个二进制文件  
+	        'Content-Disposition': 'attachment; filename=' + request.parames.filename, //告诉浏览器这是一个需要下载的文件
+		});
+		response.write(data,'utf-8');
+		response.end();
+	});
+});
+
+router.add('get','getfile',(requset,response)=>{
+	let path = './public/upload';
+	fs.readdir(path,(err,files)=>{
+		console.log(files);
+		response.write(success({
+			data:{
+				list:files
+			}
+		}));
+		response.end();
+	});
+});
+
 router.add('get','getMessage',(request,response)=>{
 	User().getMessage(request.parames).then((data)=>{
 		/*response.writeHead(200,{
 			"Content-Type":'text/html:chearset-UTF-8'
 		});*/
-		response.write(suress({
+		response.write(success({
 			data:{
 				list:data
 			},
@@ -67,7 +99,7 @@ router.add('post','login',(request,response)=>{
 		});*/
 		console.log(data);
 		if(data.length){
-			response.write(suress({
+			response.write(success({
 				data:{
 					id:data[0].id,
 					userName:data[0].user_name,
@@ -75,7 +107,7 @@ router.add('post','login',(request,response)=>{
 				msg:'登录成功'
 			}),'utf-8');
 		}else{
-			response.write(suress({
+			response.write(success({
 				code:400,
 				data:{},
 				msg:'用户名或密码错误',
@@ -95,7 +127,7 @@ router.add('post','register',(request,response)=>{
 			"Content-Type":'text/html;chearset-UTF-8'
 		});*/
 
-		response.write(suress({
+		response.write(success({
 			data:{
 				id: data.insertId,
 			},
@@ -112,7 +144,7 @@ router.add('post','sendMessage',(request,response)=>{
 		/*response.writeHead(200,{
 			"Content-Type":'text/html;chearset-UTF-8'
 		});*/
-		response.write(suress({
+		response.write(success({
 			msg:'添加留言成功'
 		}),'utf-8');
 		response.end();
@@ -121,7 +153,7 @@ router.add('post','sendMessage',(request,response)=>{
 	});
 })
 
-suress = (data)=>{
+success = (data)=>{
 
 	return JSON.stringify(
 		Object.assign({

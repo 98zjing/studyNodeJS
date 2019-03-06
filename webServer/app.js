@@ -52,9 +52,19 @@ http.createServer((request,response)=>{
 			request.on('data',(chunk)=>{
 				reqData  += chunk;
 			})
+			let parames = {};
+			if(request.url.toString().split('?').length == 2){
+				let getParams = request.url.toString().split('?')[1].split('&');
+				for(let param of getParams){
+					let key =  param.split('=')[0]; 
+					let value =  param.split('=')[1]; 
+					parames[key]  = value;
+				}
+			}
 			request.on('end',()=>{
+				Object.assign(parames,qs.parse(reqData));
 				router.get[api](Object.assign({
-					parames:qs.parse(reqData)
+					parames:parames
 				},request),response);
 			});
 			return;
