@@ -1,6 +1,7 @@
 const User =  require('./User.js');
 const buffer = require('buffer');
 const Upload  = require('./Upload.js');
+const Email  = require('./Email.js');
 
 const router = {
 	get : {},
@@ -14,6 +15,25 @@ const router = {
 		}
 	}
 };
+
+router.add('post','email',(request,response)=>{
+	console.log(request.parames)
+	let data = {...request.parames};
+	if(!data.from || !data.to ||  !data.subject || !data.html){
+		response(suress({
+			msg:'请填写完整',
+			status:0
+		}));
+		return;
+	}
+	Email().setMsg(data).send()
+	.then((res)=>{
+		response.write(suress({
+			msg:'邮箱已发送'
+		}));
+		response.end();
+	});
+});
 
 router.add('post','upload',(request,response)=>{
 	Upload().load(request).then((res)=>{

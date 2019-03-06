@@ -6,6 +6,7 @@ const path = require('path');
 const qs = require("querystring");
 const router  =  require('./app/router.js');
 
+
 const BAS_PATH = './public/assets';
 const VIEW_CONF = {
 	path:'./public/views/',
@@ -18,7 +19,7 @@ http.createServer((request,response)=>{
 	
 
 	if(pathName ==  '/'){
-		pathName  = 'load.html';
+		pathName  = 'index.html';
 	} 
 	// 获取文件的后缀名
 	let extName =  path.extname(pathName);
