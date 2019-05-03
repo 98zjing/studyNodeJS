@@ -1,0 +1,67 @@
+doctype html
+html(lang="en") 
+  head
+    meta(charset="UTF-8")
+    meta( http-equiv="keywords" content="前端,jsliang,bootstrap,企业建站")
+    meta( http-equiv="description" content="jsliang 为你打造最好的企业服务")
+    link( rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" )
+    meta( name="viewport" content="width=device-width, initial-scale=1.0")
+    meta( http-equiv="X-UA-Compatible" content="ie=edge")
+    title 企业文化-jsliang 前端有限公司
+    link( rel="stylesheet" href="/css/index.css")
+    link( rel="stylesheet" href="/css/bootstrap.min.css")
+
+  body
+    block header
+      div( class="header text-center")
+        nav( class="navbar navbar-dark bg-sky navbar-expand-lg sticky-top")
+          a( class="navbar-brand" href="index.html")
+            <img src="./images/common-logo.png" alt="Logo">
+          </a>
+          button( class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+            span( class="navbar-toggler-icon")
+          div( class="collapse navbar-collapse" id="navbarSupportedContent")
+            ul( class="navbar-nav mr-auto text-left")
+              li( class="nav-item active")
+                a( class="nav-link" href="/index") 企业首页
+              li( class="nav-item")
+                a( class="nav-link" href="/consultingBusiness") 咨询业务
+              li( class="nav-item")
+                a( class="nav-link" href="/valueAddedService") 增值业务
+              li( class="nav-item")
+                a( class="nav-link" href="/trainingBusiness") 培训业务
+              li( class="nav-item")
+                a( class="nav-link" href="/mobileApplications") 移动应用
+              li( class="nav-item")
+                a( class="nav-link" href="/messageBoard") 留言板
+            form( class="form-inline my-2 my-lg-0" action="http://www.baidu.com/baidu" target="_blank")
+              input( class="form-control mr-sm-2" type="search" name="word" placeholder="jsliang" aria-label="Search")
+              button( class="btn btn-primary my-2 my-sm-0" type="submit")
+                span( class="glyphicon glyphicon-search") 搜索
+            ul( class="nav")
+              li( class="nav-item")
+                a( class="nav-link nav-right-link" id="nav-link-register" href="/login") 登录
+              li( class="nav-item")
+                a( class="nav-link nav-right-link" id="nav-link-login" href="/register") 注册
+              li( class="nav-item")
+                a( class="nav-link nav-right-link" id="nav-link-user" href="javascript:void(0)") 用户名
+        div( class="banner")
+          img( class="img-fluid" src="./images/common-banner.jpg" alt="广告图")
+      block content
+        div= "写入你的...."
+      block footer 
+        div( class="text-center footer")
+          div( class="copyright")
+            p jsliang 前端有限公司 版权所有
+            p Copyright@ 2019. ALL Rights Reserved
+            p 友情链接:
+              a( target="_blank" class="text-warning" href="https://github.com/LiangJunrong/document-library") 梁峻荣的 GitHub
+          div( class="network-security")
+            p
+              a( target="_blank" href="http://www.beianbeian.com/beianxinxi/f9709bb6-0a3e-4863-9ad7-09e616d1ea60.html") 粤ICP备16084737号-1
+        script( src="/js/jquery-3.3.1.min.js")
+        script( src="/js/bootstrap.min.js")
+        script( src="/js/islogin.js")
+        script( src="/js/main.js")
+      

@@ -7,7 +7,7 @@ $(function () {
       'mobileApplications':true,
       'messageBoard':true
     }
-    let actName =  location.pathname.replace(/\//,'');
+    let actName =  location.pathname.replace(/\//,'').replace(/.html/,'');
     $('#'+actName).addClass('active');
 
   //获取文件

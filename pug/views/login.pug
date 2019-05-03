@@ -1,0 +1,54 @@
+extends layout.pug
+block content
+  <div class="container">
+    <div class="row aside">
+      <div class="col-md-2">
+        <div class="row">
+          <div class="sidebar">
+            <ul>
+              <li>
+                <span class="triangle"></span>
+                <a href="login.html" class="text-primary">登录</a>
+              </li>
+              <li>
+                <span class="triangle"></span>
+                <a href="register.html">注册</a>
+              </li>
+            </ul>
+          </div>
+          <div class="strategic-partner">
+            <img src="./images/common-china_tele.png" alt="战略伙伴">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 content">
+        <h4 class="content-nav">
+          <span class="text-primary float-left">
+            <img src="./images/common-nav-btn.png" alt="小导航图标">&nbsp;用户操作</span>
+          <span class="float-right">当前位置：jsliang 前端>登录注册</span>
+        </h4>
+        <div class="row content-text">
+          <div class="col-md-4 card">
+            <br>
+            <h4 class="text-center">登录账号</h4>
+            <div>
+              <label for="userName">用户昵称：</label>
+              <input maxlength="10" type="text" class="form-control" id="userName" placeholder="请输入用户名" required>
+            </div>
+            <div>
+              <label for="userPassword">账号密码：</label>
+              <input maxlength="20" type="password" class="form-control" id="userPassword" placeholder="请输入密码" required>
+            </div>
+            <br>
+            <div class="text-center">
+              <button class="btn btn-primary" type="submit" id="login-submit">登录</button>
+            </div>
+            <br>
+          </div>
+          <div class="col-md-8">
+            <img class="img-fluid" src="./images/common-login&register.png" alt="欢迎登录/注册">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

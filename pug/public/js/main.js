@@ -12,7 +12,7 @@ $(function () {
 
   //获取文件
   (function($){
-    if(location.pathname != '/load.html')return false;
+    if(location.pathname != '/load')return false;
     $.ajax({
       url:'http://localhost:8888/getfile',
       type:'get',
@@ -92,7 +92,7 @@ $(function () {
 
   //留言板
   (function($){
-    if(location.pathname != '/messageBoard.html')return false;
+    if(location.pathname != '/messageBoard')return false;
     let userName = sessionStorage.getItem("userName");
     let userId = sessionStorage.getItem("id");
     // 查询留言板
@@ -122,7 +122,7 @@ $(function () {
         }
       })
     } else { // 如果没有存储
-      window.location.href = "../login.html";
+      window.location.href = "/login";
     }
   
     // 提交留言
